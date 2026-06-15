@@ -20,7 +20,7 @@ Interactive travel agent that analyzes destinations one by one, building a curat
 2. Create the analysis document with this structure:
 
 ```markdown
-# Analisis de Destinos - [Destination]
+# Análisis de Destinos - [Destination]
 
 > [Travel party description]
 > [Restrictions/preferences noted]
@@ -70,6 +70,7 @@ Wait for the user's answer before presenting the next one.
 **SI:** Add full description to SI section. No extra commentary needed.
 
 **TAL VEZ:** Add full description to TAL VEZ section. Prepend:
+
 - The user's reasons for hesitation
 - A priority level: **Alta** (likely will do), **Media** (depends on time/route), **Baja** (only if everything aligns)
 
@@ -78,6 +79,7 @@ Wait for the user's answer before presenting the next one.
 ## Ordering
 
 Present attractions in this order:
+
 1. Most iconic/popular first (what every traveler visits)
 2. Then by geographic zone (cluster nearby attractions together)
 3. Then niche/off-the-beaten-path
@@ -98,24 +100,33 @@ Present attractions in this order:
 When the user requests a web version:
 
 1. Generate a responsive HTML page from the analysis document
-2. **Separate files:** index.html, styles.css, script.js
+2. **Separate files:** index.html, styles.css, script.js, avisos.html (info page)
 3. Design requirements:
-   - Sticky navigation with smooth scroll
-   - Cards for each destination with badges (free/paid, difficulty, time)
-   - Links per destination: Google Maps, Google Images, ticket booking (where applicable)
-   - TAL VEZ section shows priority badges (Alta/Media/Baja) and reasons
-   - NO section uses collapsible accordions to save space
-   - Table of contents / index at the top
-   - Summary counters (X si, Y tal vez, Z no)
+   - Sticky navigation with smooth scroll + info icon (fa-circle-info) linking to avisos.html
+   - Collapsible `<details class="accordion">` for each destination
+   - **Accordion summary bar** with aligned icon columns in `<span class="dest-icons">`:
+     - Interest heart (`fa-heart`) with color: red (top), orange (high), yellow (mid), grey (low)
+     - Price badge (euro symbols, color-coded: grey=free, green=cheap, orange=mid, red=expensive)
+     - Time SVG clock (inline SVG, same color scheme by duration)
+     - Location pin (`fa-location-dot`) — link to Google Maps or disabled grey
+     - Images (`fa-regular fa-image`) — link to Google Images or disabled grey
+     - Tickets (`fa-solid fa-ticket`) — link to booking or disabled grey
+   - **Accordion body** with standardized sections: Descripcion, Que hacer, Motivacion (info-list with Adultos/Ninos splits), Acceso, Horario (info-list), Precio (info-list + Explorer Pass badge if applicable)
+   - Explorer Pass badges: navy/white for included (checkmark), grey for not included (cross)
+   - `<ul class="info-list">` for structured bullet content (navy chevron marker)
    - Print-friendly (expand accordions, remove nav, adjust colors)
    - Mobile-first responsive (480px, 768px breakpoints)
-4. Color scheme: ask user preference or default to neutral (navy, slate, amber accents, black text, white background). **Never use green/red for SI/NO** — use neutral colors only.
-5. Font: Google Fonts (Inter or similar clean sans-serif)
+   - **Info page** (avisos.html): same nav/styles, contains warnings and travel notes as accordions
+   - Nav info icon: pulsing white-to-gold animation, tooltip "Info adicional"
+4. Color scheme: destination flag theme (e.g. Scotland: navy #005EB8, white). **Never use green/red for SI/NO** — use neutral colors only. All badge colors are text-only (transparent background).
+5. Font: Google Fonts (Inter or similar clean sans-serif), Font Awesome 6.5.1 CDN for icons
 6. If GitHub repo provided: push and enable GitHub Pages, give user the live URL
+7. **Spanish orthography:** all content must have correct accents and tildes. Use a Python script for bulk fixes if needed.
 
 ## After All Attractions Are Reviewed
 
 Offer to:
+
 1. Build a **day-by-day itinerary** from the SI + TAL VEZ lists, optimized by geography and opening hours
 2. Estimate **total budget** (transport, entries, food, accommodation)
 3. Suggest what to **cut from TAL VEZ** if time is tight (use priority levels)
