@@ -3,3 +3,4 @@ window.addEventListener('beforeprint', function() {
     el.setAttribute('open', '');
   });
 });
+
